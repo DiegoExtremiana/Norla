@@ -1,0 +1,161 @@
+/* 02 Herramienta */
+
+.tool {
+  height: 520vh;
+  background:
+    radial-gradient(60% 50% at 66% 50%, rgba(2, 74, 125, 0.5), transparent 70%),
+    var(--deep) !important;
+}
+.tool__stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  max-width: calc(var(--max) + 2 * var(--gutter));
+  margin: 0 auto;
+  padding: var(--nav-h) var(--gutter) 0;
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  align-items: center;
+  gap: clamp(16px, 3vw, 48px);
+}
+.tool__text { position: relative; min-height: 18rem; }
+.tool__slide {
+  position: absolute;
+  inset: 0 0 auto 0;
+  opacity: 0;
+  will-change: opacity, transform;
+}
+.tool__slide[data-slide="0"] { opacity: 1; }
+.tool__kicker {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--sky);
+  margin-bottom: 10px;
+}
+.dot { width: 8px; height: 8px; border-radius: 50%; }
+.dot--sand { background: var(--sand); }
+.dot--sea { background: var(--teal); }
+.tool__title {
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 6vw, 5rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  font-weight: 700;
+}
+.tool__title--final { font-size: clamp(2.1rem, 4.4vw, 3.6rem); letter-spacing: -0.032em; line-height: 1.06; }
+.tool__title--final span { color: var(--sky); }
+.tool__body {
+  margin-top: 18px;
+  max-width: 32ch;
+  font-size: clamp(1.0625rem, 1.5vw, 1.25rem);
+  line-height: 1.5;
+  color: var(--text-light-2);
+}
+
+.tool__model {
+  position: relative;
+  width: min(100%, 82svh);
+  aspect-ratio: 1;
+  justify-self: center;
+  will-change: transform;
+}
+.tool__glow {
+  position: absolute;
+  inset: 12%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(173, 224, 234, 0.22), transparent);
+  filter: blur(20px);
+  animation: breathe 5s ease-in-out infinite alternate;
+}
+.part {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+.part[data-part="exploded"] { opacity: 1; }
+
+.callout {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px 8px 10px;
+  border-radius: 980px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--deep);
+  background: rgba(245, 245, 247, 0.92);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.9);
+  white-space: nowrap;
+  will-change: opacity, transform;
+}
+.callout i {
+  --dot: var(--teal);
+  position: relative;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--dot);
+}
+.callout i::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--dot);
+  animation: ripple 1.8s var(--ease-out) infinite;
+}
+.callout[data-callout="mesh"] i { --dot: #c9a978; }
+
+.tool__progress {
+  position: absolute;
+  left: var(--gutter);
+  right: var(--gutter);
+  bottom: max(28px, env(safe-area-inset-bottom));
+  height: 2px;
+  border-radius: 2px;
+  background: rgba(245, 245, 247, 0.12);
+  overflow: hidden;
+}
+.tool__progress span {
+  display: block;
+  height: 100%;
+  background: var(--sky);
+  transform-origin: left;
+  transform: scaleX(0);
+}
+
+@media (max-width: 860px) {
+  .tool__stage {
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(0, 1fr) auto;
+    padding-bottom: 64px;
+    gap: 8px;
+  }
+  .tool__model { grid-row: 1; width: min(100%, 52svh); align-self: end; }
+  .tool__text { grid-row: 2; min-height: 12.5rem; text-align: center; }
+  .tool__body { margin-inline: auto; }
+  .tool__kicker { justify-content: center; }
+  .tool__slide .display { font-size: clamp(2.25rem, 10vw, 3rem); }
+  .callout { font-size: 0.75rem; padding: 6px 12px 6px 8px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tool { height: auto; }
+  .tool__stage { position: relative; height: auto; padding-block: 120px 80px; }
+  .tool__text { min-height: 0; display: grid; gap: 40px; }
+  .tool__slide { position: static; opacity: 1 !important; }
+  .part { display: none; }
+  .part[data-part="final"] { display: block; opacity: 1; position: relative; }
+  .callout, .tool__progress { display: none; }
+}

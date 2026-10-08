@@ -1,0 +1,344 @@
+<!doctype html>
+<!--
+  N’Orla — Donde la vida anida
+  Idea y proyecto (TFG): Diana Extremiana
+  Desarrollo web: Diego Extremiana
+-->
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>N’Orla — Donde la vida anida</title>
+  <meta name="description" content="N’Orla es una herramienta manual para la recogida selectiva de residuos en entornos costeros sensibles. Una nueva forma de cuidar la orilla.">
+  <meta name="author" content="Diana Extremiana (idea y proyecto), Diego Extremiana (desarrollo web)">
+  <link rel="author" href="humans.txt">
+  <meta name="theme-color" content="#fbfaf7">
+  <link rel="icon" type="image/png" href="assets/img/turtle-blue.png">
+  <link rel="preload" as="image" href="assets/img/hero-product.webp">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/sections/hero.css">
+  <link rel="stylesheet" href="css/sections/photo.css">
+  <link rel="stylesheet" href="css/sections/statement.css">
+  <link rel="stylesheet" href="css/sections/tool.css">
+  <link rel="stylesheet" href="css/sections/care.css">
+  <link rel="stylesheet" href="css/sections/cycle.css">
+  <link rel="stylesheet" href="css/sections/materials.css">
+  <link rel="stylesheet" href="css/sections/people.css">
+  <link rel="stylesheet" href="css/sections/origin.css">
+  <link rel="stylesheet" href="css/sections/identity.css">
+  <link rel="stylesheet" href="css/sections/closing.css">
+</head>
+<body>
+
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+      <a href="#top" class="nav__brand" aria-label="N’Orla, inicio">
+        <img src="assets/img/wordmark-blue.png" alt="N’Orla" width="1035" height="300">
+      </a>
+      <nav class="nav__links" id="nav-links" aria-label="Secciones">
+        <a href="#orilla">La orilla</a>
+        <a href="#herramienta">Herramienta</a>
+        <a href="#ciclo">Ciclo</a>
+        <a href="#materiales">Materiales</a>
+        <a href="#origen">Origen</a>
+      </nav>
+      <button class="nav__toggle" id="nav-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Abrir menú">
+        <span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main class="stack" id="top">
+
+    <!-- HERO -->
+    <section class="panel hero" data-theme="light" aria-labelledby="hero-title">
+      <div class="panel__body hero__inner">
+        <div class="hero__copy" data-hero-copy>
+          <h1 class="hero__title intro" id="hero-title">
+            <img src="assets/img/wordmark-blue.png" alt="N’Orla" width="1035" height="300">
+          </h1>
+          <p class="hero__tag intro">Donde la vida anida</p>
+          <p class="hero__lead intro">Una nueva forma de cuidar la&nbsp;orilla.</p>
+          <p class="hero__sub intro">Herramienta manual para la recogida selectiva de residuos en entornos costeros sensibles.</p>
+          <a href="#orilla" class="btn btn--primary intro" data-jump>Conocer N’Orla <span aria-hidden="true" class="btn__arrow">↓</span></a>
+        </div>
+        <div class="hero__visual" data-hero-visual>
+          <img src="assets/img/hero-product.webp" alt="Herramienta N’Orla: mango curvo con gancho en espiral y cesta tamizadora" width="476" height="1008">
+        </div>
+      </div>
+    </section>
+
+    <!-- 01 LA ORILLA -->
+    <section class="panel photo" id="orilla" data-theme="dark" aria-labelledby="orilla-title">
+      <div class="photo__media" data-drift>
+        <img src="assets/img/beach-plastic.webp" alt="Orilla al atardecer cubierta de botellas y residuos plásticos" loading="lazy">
+      </div>
+      <div class="panel__body photo__copy">
+        <p class="eyebrow eyebrow--light reveal">01 — La orilla</p>
+        <h2 id="orilla-title" class="display display--xl display--light reveal">Donde termina el mar, empieza algo más.</h2>
+      </div>
+    </section>
+
+    <section class="panel statement" data-theme="light" aria-label="La orilla, un espacio de encuentro">
+      <div class="panel__body statement__inner">
+        <div class="ridges ridges--corner" data-ridges="9" aria-hidden="true"></div>
+        <p class="statement__text" data-words>La orilla es un espacio de encuentro. Entre la tierra y el mar, entre los residuos y la vida.</p>
+        <p class="statement__body reveal">N’Orla nace para intervenir en este límite de forma <strong>selectiva, ligera y respetuosa</strong>, especialmente en aquellas playas donde la conservación del ecosistema debe estar por encima de la rapidez de la limpieza.</p>
+      </div>
+    </section>
+
+    <!-- 02 HERRAMIENTA -->
+    <section class="panel tool" id="herramienta" data-theme="dark" aria-labelledby="tool-title">
+      <div class="tool__stage">
+        <div class="tool__text">
+          <div class="tool__slide" data-slide="0">
+            <p class="eyebrow eyebrow--sky">02 — Una herramienta. Dos entornos.</p>
+            <h2 id="tool-title" class="display display--light">Arena + agua</h2>
+            <p class="tool__body">N’Orla combina dos sistemas de recogida en una misma herramienta.</p>
+          </div>
+          <div class="tool__slide" data-slide="1">
+            <p class="tool__kicker"><span class="dot dot--sand"></span>Arena</p>
+            <h3 class="tool__title">Cribar</h3>
+            <p class="tool__body">Un sistema para recoger y separar los residuos presentes en la superficie de la arena, evitando alterar innecesariamente el sustrato.</p>
+          </div>
+          <div class="tool__slide" data-slide="2">
+            <p class="tool__kicker"><span class="dot dot--sea"></span>Agua</p>
+            <h3 class="tool__title">Filtrar</h3>
+            <p class="tool__body">Un sistema de filtrado para recoger los residuos de la superficie del agua, con lana como material natural de retención.</p>
+          </div>
+          <div class="tool__slide" data-slide="3">
+            <h3 class="tool__title tool__title--final">Un mismo gesto.<br><span>Diferentes medios.</span></h3>
+          </div>
+        </div>
+
+        <div class="tool__model" data-model aria-hidden="true">
+          <div class="tool__glow"></div>
+          <img class="part" data-part="exploded" src="assets/img/render-exploded.webp" alt="" width="1080" height="1080">
+          <img class="part" data-part="handle" src="assets/img/part-handle.webp" alt="" width="1080" height="1080">
+          <img class="part" data-part="frame" src="assets/img/part-frame.webp" alt="" width="1080" height="1080">
+          <img class="part" data-part="plate" src="assets/img/part-plate.webp" alt="" width="1080" height="1080">
+          <img class="part" data-part="mesh" src="assets/img/part-mesh.webp" alt="" width="1080" height="1080">
+          <img class="part" data-part="final" src="assets/img/render-front.webp" alt="" width="1080" height="1080">
+
+          <span class="callout callout--left" data-callout="mesh"><i></i>Cribar</span>
+          <span class="callout callout--right" data-callout="plate"><i></i>Filtrar</span>
+        </div>
+
+        <div class="tool__progress" aria-hidden="true"><span data-progress></span></div>
+      </div>
+    </section>
+
+    <!-- 03 DISEÑADA PARA NO INVADIR -->
+    <section class="panel care" data-theme="light" aria-labelledby="care-title">
+      <div class="panel__body care__inner">
+        <div class="care__copy">
+          <p class="eyebrow reveal">03 — Diseñada para no invadir</p>
+          <h2 id="care-title" class="display reveal">Limpiar también puede significar cuidar.</h2>
+          <p class="care__body reveal">A diferencia de los sistemas mecanizados de limpieza, N’Orla está pensada para actuar en espacios donde la intervención debe ser mínima. Su funcionamiento manual permite:</p>
+          <ol class="care__list">
+            <li class="reveal">Actuar de forma localizada</li>
+            <li class="reveal">Seleccionar qué se recoge</li>
+            <li class="reveal">Evitar la alteración profunda de la arena</li>
+            <li class="reveal">Adaptarse a zonas sensibles</li>
+            <li class="reveal">Reducir el impacto sobre la fauna</li>
+          </ol>
+        </div>
+        <figure class="care__figure reveal">
+          <img src="assets/img/hatchling-hand.webp" alt="Cría de tortuga marina con arena sobre la palma de una mano" loading="lazy">
+          <figcaption>
+            <img src="assets/img/turtle-white.png" alt="" width="1140" height="1200" loading="lazy">
+            Especialmente donde la vida anida.
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- 04 DEL RESIDUO AL RECURSO -->
+    <section class="panel cycle" id="ciclo" data-theme="dark" aria-labelledby="cycle-title">
+      <div class="cycle__stage">
+        <div class="cycle__copy">
+          <p class="eyebrow eyebrow--sky">04 — Del residuo al recurso</p>
+          <h2 id="cycle-title" class="display display--light cycle__title">¿Y si el residuo pudiera volver a formar parte del&nbsp;ciclo?</h2>
+          <p class="cycle__body">N’Orla plantea una lógica de economía circular: los residuos recogidos se convierten en materia prima para fabricar nuevos componentes de la propia herramienta.</p>
+          <p class="cycle__motto" aria-label="Recoger, transformar, volver a utilizar.">
+            <span data-motto>Recoger</span><span class="sep" aria-hidden="true">→</span><span data-motto>transformar</span><span class="sep" aria-hidden="true">→</span><span data-motto>volver a utilizar.</span>
+          </p>
+        </div>
+
+        <div class="cycle__ring" data-ring>
+          <svg viewBox="0 0 600 600" aria-hidden="true">
+            <defs>
+              <linearGradient id="ring-grad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#ade0ea"/>
+                <stop offset="1" stop-color="#00a3a6"/>
+              </linearGradient>
+            </defs>
+            <circle class="ring__track" cx="300" cy="300" r="230"/>
+            <circle class="ring__fill" cx="300" cy="300" r="230" pathLength="1" data-ring-fill/>
+            <circle class="ring__head" r="7" data-ring-head/>
+          </svg>
+          <ol class="ring__nodes">
+            <li data-node style="--a:0"><span>Playa</span></li>
+            <li data-node style="--a:1"><span>Residuo</span></li>
+            <li data-node style="--a:2"><span>Recogida</span></li>
+            <li data-node style="--a:3"><span>Transformación</span></li>
+            <li data-node style="--a:4"><span>N’Orla</span></li>
+          </ol>
+          <div class="ring__center">
+            <img src="assets/img/turtle-white.png" alt="" width="1140" height="1200">
+            <div class="ring__captions">
+              <p data-caption>Donde todo empieza.</p>
+              <p data-caption>Lo que el mar devuelve.</p>
+              <p data-caption>Selectiva, manual, sin alterar la arena.</p>
+              <p data-caption>El plástico recuperado se convierte en materia prima.</p>
+              <p data-caption>Nuevos componentes para la propia herramienta.</p>
+              <p data-caption>Y vuelta a la playa.</p>
+            </div>
+          </div>
+        </div>
+        <p class="cycle__outro" data-outro>Aquello que antes era parte del problema puede convertirse en parte de la solución.</p>
+      </div>
+    </section>
+
+    <!-- 05 MATERIALES -->
+    <section class="panel materials" id="materiales" data-theme="light" aria-labelledby="materials-title">
+      <div class="panel__body">
+        <header class="section-head">
+          <p class="eyebrow reveal">05 — Materiales</p>
+          <h2 id="materials-title" class="display reveal">Materiales que cuentan una historia.</h2>
+          <p class="section-head__body reveal">N’Orla busca reducir la incorporación de materiales nuevos y aprovechar aquellos que ya existen en el entorno.</p>
+        </header>
+        <div class="materials__grid">
+          <article class="material material--plastic reveal">
+            <svg class="material__texture" aria-hidden="true" preserveAspectRatio="none">
+              <filter id="tex-plastic" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+                <feTurbulence type="fractalNoise" baseFrequency="0.009 0.02" numOctaves="5" seed="11"/>
+                <feColorMatrix type="matrix" values="0 0 0 0 0.12  0 0 0 0 0.47  0 0 0 0 0.78  9 0 0 0 -4.3"/>
+              </filter>
+              <filter id="tex-plastic-2" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+                <feTurbulence type="fractalNoise" baseFrequency="0.026 0.045" numOctaves="4" seed="4"/>
+                <feColorMatrix type="matrix" values="0 0 0 0 0.55  0 0 0 0 0.73  0 0 0 0 0.9  0 7 0 0 -3.3"/>
+              </filter>
+              <rect width="100%" height="100%" fill="#eef1f4"/>
+              <rect width="100%" height="100%" style="filter:url(#tex-plastic-2)"/>
+              <rect width="100%" height="100%" style="filter:url(#tex-plastic)"/>
+            </svg>
+            <div class="material__copy">
+              <h3>Plástico recuperado</h3>
+              <p>Utilizado en la estructura del sistema a partir de residuos recogidos en las propias playas.</p>
+            </div>
+          </article>
+          <article class="material material--wool reveal">
+            <svg class="material__texture" aria-hidden="true" preserveAspectRatio="none">
+              <filter id="tex-wool" x="0" y="0" width="100%" height="100%">
+                <feTurbulence type="turbulence" baseFrequency="0.012 0.045" numOctaves="4" seed="3" result="n"/>
+                <feDiffuseLighting in="n" surfaceScale="3.2" lighting-color="#fbf4e8" result="l">
+                  <feDistantLight azimuth="235" elevation="48"/>
+                </feDiffuseLighting>
+                <feComposite in="l" in2="SourceGraphic" operator="in"/>
+              </filter>
+              <rect width="100%" height="100%" fill="#e9dfcf"/>
+              <rect width="100%" height="100%" fill="#000" style="filter:url(#tex-wool)" opacity=".9"/>
+            </svg>
+            <div class="material__copy">
+              <h3>Lana</h3>
+              <p>Material natural empleado en el sistema de filtrado por sus propiedades de retención y su carácter renovable.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06 PARA QUIÉN -->
+    <section class="panel people" data-theme="light" aria-labelledby="people-title">
+      <div class="panel__body people__inner">
+        <figure class="people__figure reveal">
+          <img src="assets/img/cleanup.webp" alt="Voluntarios con camisetas azules recogiendo residuos en una playa de Cabo Verde" loading="lazy">
+        </figure>
+        <div class="people__copy">
+          <p class="eyebrow reveal">06 — Para quién</p>
+          <h2 id="people-title" class="display reveal">Pensada para quienes cuidan la costa.</h2>
+          <p class="people__body reveal">Personas y organizaciones que participan activamente en la conservación de los entornos costeros.</p>
+          <ul class="people__list">
+            <li class="reveal"><h3>Voluntarios ambientales</h3><p>Para jornadas de limpieza y conservación.</p></li>
+            <li class="reveal"><h3>ONG y asociaciones</h3><p>Para intervenciones en espacios naturales sensibles.</p></li>
+            <li class="reveal"><h3>Equipos de limpieza</h3><p>Como herramienta complementaria donde la maquinaria no resulta adecuada.</p></li>
+            <li class="reveal"><h3>Comunidades locales</h3><p>Un sistema sencillo y accesible para cuidar su entorno.</p></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 07 EL ORIGEN -->
+    <section class="panel origin" id="origen" data-theme="dark" aria-labelledby="origin-title">
+      <div class="origin__media" data-drift>
+        <img src="assets/img/nesting.webp" alt="Tortuga boba desovando en la arena junto a una técnica de conservación en Cabo Verde" loading="lazy">
+      </div>
+      <div class="panel__body origin__copy">
+        <p class="eyebrow eyebrow--sky reveal">07 — El origen</p>
+        <h2 id="origin-title" class="display display--light reveal">Nacida en Cabo&nbsp;Verde.</h2>
+        <p class="origin__body reveal">N’Orla parte de una problemática observada en las costas de Cabo Verde, donde la acumulación de residuos afecta especialmente a zonas intermareales y playas de anidación.</p>
+        <p class="origin__body reveal">La presencia de residuos puede convertirse en un obstáculo para la fauna marina y alterar espacios destinados a la reproducción.</p>
+      </div>
+    </section>
+
+    <section class="panel question" data-theme="dark" aria-label="La pregunta">
+      <div class="panel__body question__inner">
+        <div class="ridges ridges--center" data-ridges="14" aria-hidden="true"></div>
+        <p class="question__lead reveal">De esta investigación nace una pregunta:</p>
+        <p class="question__text" data-words>¿Cómo podemos limpiar la costa sin dejar de protegerla?</p>
+        <p class="question__answer reveal">N’Orla es nuestra respuesta.</p>
+      </div>
+    </section>
+
+    <!-- 08 IDENTIDAD -->
+    <section class="panel identity" data-theme="light" aria-labelledby="identity-title">
+      <div class="panel__body identity__inner">
+        <div class="identity__mark reveal">
+          <div class="ridges ridges--halo" data-ridges="7" aria-hidden="true"></div>
+          <img src="assets/img/turtle-blue.png" alt="Símbolo de N’Orla: una huella dactilar con forma de tortuga" width="1140" height="1200" loading="lazy">
+        </div>
+        <div class="identity__copy">
+          <p class="eyebrow reveal">08 — La identidad</p>
+          <h2 id="identity-title" class="identity__logo reveal">
+            <img src="assets/img/wordmark-blue.png" alt="N’Orla" width="1035" height="300" loading="lazy">
+          </h2>
+          <p class="identity__tag reveal">Donde la vida anida.</p>
+          <div class="identity__cols">
+            <p class="reveal">El nombre nace de la expresión <em>“na orla”</em>: la orilla, ese espacio de transición donde se encuentran el agua, la tierra y la vida.</p>
+            <p class="reveal">El símbolo fusiona una huella humana con la silueta de una tortuga: nuestra acción y nuestra responsabilidad frente al entorno que queremos proteger.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 09 CIERRE -->
+    <section class="panel closing" data-theme="dark" aria-labelledby="closing-title">
+      <div class="closing__media" data-drift>
+        <img src="assets/img/hatchlings.webp" alt="Dos crías de tortuga avanzando por la arena hacia el mar" loading="lazy">
+      </div>
+      <div class="panel__body closing__copy">
+        <h2 id="closing-title" class="display display--xl display--light">
+          <span class="reveal">La costa no necesita más fuerza.</span>
+          <span class="reveal closing__second">Necesita cuidado.</span>
+        </h2>
+        <div class="closing__brand reveal">
+          <img src="assets/img/wordmark-white.png" alt="N’Orla" width="1035" height="300" loading="lazy">
+          <p>Donde la vida anida.</p>
+        </div>
+      </div>
+      <footer class="footer">
+        <p>Idea y proyecto: Diana Extremiana</p>
+        <p>Desarrollo web: Diego Extremiana</p>
+        <p>Fotografías de campo: Cabo Verde Natura 2000</p>
+        <p>© 2026 N’Orla</p>
+      </footer>
+    </section>
+
+  </main>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

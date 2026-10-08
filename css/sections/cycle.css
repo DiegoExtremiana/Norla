@@ -1,0 +1,187 @@
+/* 04 Ciclo */
+
+.cycle {
+  height: 400vh;
+  background:
+    radial-gradient(55% 55% at 70% 50%, rgba(0, 163, 166, 0.22), transparent 70%),
+    linear-gradient(180deg, var(--deep), var(--deep-2)) !important;
+}
+.cycle__stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  max-width: calc(var(--max) + 2 * var(--gutter));
+  margin: 0 auto;
+  padding: var(--nav-h) var(--gutter) 0;
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  align-items: center;
+  gap: clamp(24px, 5vw, 80px);
+}
+.cycle__title { font-size: clamp(2rem, 4.2vw, 3.6rem); }
+.cycle__body {
+  margin-top: 22px;
+  max-width: 40ch;
+  font-size: clamp(1rem, 1.4vw, 1.1875rem);
+  line-height: 1.5;
+  color: var(--text-light-2);
+}
+.cycle__motto {
+  margin-top: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 12px;
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2vw, 1.75rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.cycle__motto [data-motto] { opacity: 0.22; transition: opacity 500ms var(--ease-out), color 500ms var(--ease-out); }
+.cycle__motto [data-motto].is-on { opacity: 1; color: var(--sky); }
+.cycle__motto .sep { opacity: 0.3; font-weight: 400; }
+
+.cycle__ring {
+  position: relative;
+  width: min(100%, 76svh);
+  aspect-ratio: 1;
+  justify-self: center;
+}
+.cycle__ring svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.ring__track { fill: none; stroke: rgba(245, 245, 247, 0.1); stroke-width: 2; }
+.ring__fill {
+  fill: none;
+  stroke: url(#ring-grad);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 1 1;
+  stroke-dashoffset: 1;
+  transform: rotate(-90deg);
+  transform-origin: 300px 300px;
+}
+.ring__head { fill: #fff; filter: drop-shadow(0 0 8px rgba(173, 224, 234, 0.9)); }
+
+/* r = 230 / 600 = 38.33 % */
+.ring__nodes li {
+  --angle: calc(var(--a) * 72deg - 90deg);
+  position: absolute;
+  left: calc(50% + cos(var(--angle)) * 38.33%);
+  top: calc(50% + sin(var(--angle)) * 38.33%);
+  width: 0;
+  height: 0;
+}
+.ring__nodes li::before {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  left: -7px;
+  top: -7px;
+  border-radius: 50%;
+  background: var(--deep);
+  border: 2px solid rgba(245, 245, 247, 0.28);
+  transition: background-color 500ms var(--ease-out), border-color 500ms var(--ease-out), transform 500ms var(--ease-out);
+}
+.ring__nodes li.is-on::before { background: var(--sky); border-color: var(--sky); transform: scale(1.25); }
+.ring__nodes span {
+  position: absolute;
+  white-space: nowrap;
+  font-size: clamp(0.75rem, 1.15vw, 0.9375rem);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(245, 245, 247, 0.4);
+  transition: color 500ms var(--ease-out);
+}
+.ring__nodes li.is-on span { color: var(--text-light); }
+.ring__nodes li[style*="--a:0"] span { left: 0; bottom: 18px; translate: -50% 0; }
+.ring__nodes li[style*="--a:1"] span { left: 18px; top: 0; translate: 0 -50%; }
+.ring__nodes li[style*="--a:2"] span { left: 12px; top: 14px; }
+.ring__nodes li[style*="--a:3"] span { right: 12px; top: 14px; }
+.ring__nodes li[style*="--a:4"] span { right: 18px; top: 0; translate: 0 -50%; }
+
+.ring__center {
+  position: absolute;
+  inset: 26%;
+  display: grid;
+  place-items: center;
+  text-align: center;
+}
+.ring__center > img {
+  width: 34%;
+  opacity: 0.9;
+  margin-bottom: 8%;
+  align-self: end;
+  animation: swim 8s ease-in-out infinite;
+}
+.ring__captions { position: relative; align-self: start; width: 100%; min-height: 3.2em; }
+.ring__captions p {
+  position: absolute;
+  inset: 0 0 auto;
+  font-size: clamp(0.9375rem, 1.4vw, 1.1875rem);
+  line-height: 1.35;
+  color: var(--text-light);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 500ms var(--ease-out), transform 600ms var(--ease-out);
+  text-wrap: balance;
+}
+.ring__captions p.is-on { opacity: 1; transform: none; }
+
+.cycle__outro {
+  position: absolute;
+  left: var(--gutter);
+  right: var(--gutter);
+  bottom: clamp(28px, 7vh, 72px);
+  text-align: center;
+  font-size: clamp(1.0625rem, 1.6vw, 1.375rem);
+  font-weight: 600;
+  letter-spacing: -0.012em;
+  color: var(--text-light);
+  opacity: 0;
+  transform: translateY(10px);
+  will-change: opacity, transform;
+}
+
+@media (max-width: 860px) {
+  .cycle__stage {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto minmax(0, 1fr);
+    align-content: center;
+    gap: 0;
+    padding-top: calc(var(--nav-h) + 20px);
+    padding-bottom: 72px;
+  }
+  .cycle__title { font-size: clamp(1.6rem, 6.4vw, 2.2rem); }
+  .cycle__body { display: none; }
+  .cycle__motto { margin-top: 12px; font-size: 1.0625rem; }
+  .cycle__ring { width: min(84vw, 46svh); align-self: center; }
+  .ring__nodes span { font-size: 0.625rem; letter-spacing: 0.04em; }
+  .cycle__outro { bottom: 24px; font-size: 1rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cycle { height: auto; }
+  .cycle__stage { position: relative; height: auto; padding-block: 120px 80px; }
+  .ring__fill { stroke-dashoffset: 0; }
+  .ring__head { display: none; }
+  .ring__nodes li::before { background: var(--sky); border-color: var(--sky); }
+  .ring__nodes span { color: var(--text-light); }
+  .ring__captions { display: none; }
+  .cycle__motto [data-motto] { opacity: 1; }
+  .cycle__outro { position: static; opacity: 1; transform: none; grid-column: 1 / -1; }
+}
+
+.ring__nodes li::after {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  left: -7px;
+  top: -7px;
+  border-radius: 50%;
+  background: var(--sky);
+  opacity: 0;
+}
+.ring__nodes li.is-current::after { animation: ripple 2s var(--ease-out) infinite; }

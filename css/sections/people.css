@@ -1,0 +1,46 @@
+/* 06 Para quién */
+
+.people { display: grid; align-items: center; }
+.people__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  gap: clamp(40px, 6vw, 96px);
+  align-items: center;
+}
+.people__figure {
+  aspect-ratio: 4 / 5;
+  border-radius: var(--radius-l);
+  overflow: hidden;
+}
+.people__figure img { width: 100%; height: 100%; object-fit: cover; object-position: 22% 60%; }
+.people__body {
+  margin-top: 20px;
+  max-width: 42ch;
+  font-size: clamp(1.0625rem, 1.5vw, 1.25rem);
+  line-height: 1.5;
+  color: var(--text-2);
+}
+.people__list {
+  margin-top: 32px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 26px 32px;
+}
+.people__list li { border-top: 1px solid var(--line); padding-top: 16px; }
+.people__list li:nth-child(2) { --d: 80ms; }
+.people__list li:nth-child(3) { --d: 160ms; }
+.people__list li:nth-child(4) { --d: 240ms; }
+.people__list h3 { font-size: 1.1875rem; font-weight: 600; letter-spacing: -0.014em; }
+.people__list p { margin-top: 6px; font-size: 1rem; line-height: 1.47; color: var(--text-2); }
+
+@media (max-width: 860px) {
+  .people__inner { grid-template-columns: 1fr; }
+  .people__figure { aspect-ratio: 16 / 11; }
+}
+@media (max-width: 480px) {
+  .people__list { grid-template-columns: 1fr; gap: 18px; }
+}
+
+@media (prefers-contrast: more) {
+  .people__list p { color: #3a3a3c; }
+}

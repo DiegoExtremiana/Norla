@@ -1,0 +1,120 @@
+/* Botones */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  min-height: 46px;
+  padding: 0 24px;
+  border-radius: 980px;
+  font-size: 1.0625rem;
+  font-weight: 500;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 140ms ease-out, background-color 240ms ease-out;
+}
+.btn:active { transform: scale(0.97); }
+.btn--primary { background: var(--navy); color: #fff; }
+.btn--primary:hover { background: var(--navy-2); }
+.btn__arrow { display: inline-block; transition: transform 400ms var(--ease-out); }
+.btn:hover .btn__arrow { transform: translateY(3px); }
+
+/* Revelado */
+
+.reveal {
+  opacity: 0;
+  transform: translate3d(0, 28px, 0);
+  transition: opacity 1000ms var(--ease-out), transform 1100ms var(--ease-out);
+  transition-delay: var(--d, 0ms);
+}
+.reveal.is-in { opacity: 1; transform: none; }
+
+/* Crestas de huella (js/modules/ridges.js) */
+
+.ridges { position: absolute; pointer-events: none; }
+.ridges svg { width: 100%; height: 100%; overflow: visible; }
+.ridges path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-dasharray: var(--len) var(--len);
+  stroke-dashoffset: var(--len);
+  transition: stroke-dashoffset 2600ms var(--ease-out);
+  transition-delay: calc(var(--i) * 70ms);
+}
+.ridges.is-in path { stroke-dashoffset: var(--gap, 0); }
+.ridges--corner {
+  width: clamp(280px, 40vw, 560px);
+  aspect-ratio: 1;
+  right: calc(-1 * clamp(120px, 14vw, 220px));
+  top: calc(var(--nav-h) + 4vh);
+  color: rgba(2, 74, 125, 0.12);
+}
+.ridges--center {
+  width: min(120vw, 1100px);
+  aspect-ratio: 1;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  color: rgba(173, 224, 234, 0.08);
+}
+.ridges--halo {
+  inset: -18%;
+  color: rgba(2, 74, 125, 0.14);
+}
+
+/* Cabeceras de sección */
+
+.section-head { max-width: 760px; }
+.section-head__body {
+  margin-top: 20px;
+  max-width: 46ch;
+  font-size: clamp(1.0625rem, 1.5vw, 1.25rem);
+  line-height: 1.5;
+  color: var(--text-2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { transform: none !important; transition: opacity 400ms ease; }
+  .ridges path { transition: none; stroke-dashoffset: var(--gap, 0); }
+}
+
+/* Animaciones en bucle
+   Usan las propiedades translate, rotate y scale para no pisar los transform
+   que escribe el scroll. Se pausan cuando su panel no se ve (js/modules/stack.js). */
+
+@keyframes float {
+  50% { translate: 0 -12px; }
+}
+@keyframes swim {
+  0%, 100% { translate: 0 0; rotate: -2deg; }
+  50% { translate: 0 -10px; rotate: 2deg; }
+}
+@keyframes ripple {
+  from { scale: 1; opacity: 0.7; }
+  to { scale: 2.8; opacity: 0; }
+}
+@keyframes breathe {
+  from { scale: 0.94; opacity: 0.7; }
+  to { scale: 1.05; opacity: 1; }
+}
+@keyframes drift-spin {
+  to { rotate: 360deg; }
+}
+@keyframes nudge {
+  0%, 60%, 100% { translate: 0 0; }
+  30% { translate: 0 4px; }
+}
+
+.btn__arrow { animation: nudge 2.4s var(--ease-out) infinite; }
+.ridges svg { animation: drift-spin 160s linear infinite; }
+.ridges--halo svg { animation-direction: reverse; animation-duration: 120s; }
+
+.panel:not(.is-playing)::before,
+.panel:not(.is-playing) *,
+.panel:not(.is-playing) *::before,
+.panel:not(.is-playing) *::after { animation-play-state: paused !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; }
+}

@@ -1,0 +1,24 @@
+/* 09 Cierre */
+
+.closing { text-align: center; grid-template-rows: 1fr auto; }
+.closing__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(3, 24, 42, 0.72), rgba(3, 24, 42, 0.3) 45%, rgba(3, 24, 42, 0.75));
+}
+.closing__copy { align-self: center; }
+.closing__copy .display span { display: block; }
+.closing__second { color: var(--sky); --d: 250ms; }
+.closing__brand { margin-top: clamp(40px, 8vh, 80px); --d: 450ms; }
+.closing__brand img { width: clamp(160px, 18vw, 230px); margin: 0 auto; }
+.closing__brand p { margin-top: 8px; color: rgba(255, 255, 255, 0.85); }
+.footer {
+  padding: 18px var(--gutter) max(22px, env(safe-area-inset-bottom));
+  display: flex;
+  justify-content: center;
+  gap: 8px 24px;
+  flex-wrap: wrap;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.6);
+}

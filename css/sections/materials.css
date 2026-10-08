@@ -1,0 +1,57 @@
+/* 05 Materiales */
+
+.materials { background: var(--bg-alt) !important; }
+.materials__grid {
+  margin-top: clamp(40px, 7vh, 72px);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+.material {
+  position: relative;
+  min-height: clamp(380px, 58vh, 600px);
+  border-radius: var(--radius-l);
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  isolation: isolate;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03), 0 20px 50px rgba(0, 0, 0, 0.07);
+}
+.material:nth-child(2) { --d: 120ms; }
+.material__texture {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  transition: transform 1400ms var(--ease-out);
+}
+@media (hover: hover) {
+  .material:hover .material__texture { transform: scale(1.04); }
+}
+.material__copy {
+  width: 100%;
+  padding: 120px 32px 32px;
+}
+.material--plastic .material__copy { background: linear-gradient(to top, rgba(3, 24, 42, 0.72), transparent); color: #fff; }
+.material--plastic .material__copy p { color: rgba(255, 255, 255, 0.85); }
+.material--wool .material__copy { background: linear-gradient(to top, rgba(251, 246, 238, 0.95), transparent); }
+.material--wool .material__copy p { color: #5e574d; }
+.material h3 {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  font-weight: 700;
+}
+.material p {
+  margin-top: 10px;
+  max-width: 34ch;
+  font-size: 1.0625rem;
+  line-height: 1.47;
+}
+@media (max-width: 760px) {
+  .materials__grid { grid-template-columns: 1fr; gap: 16px; }
+  .material { min-height: 340px; }
+  .material__copy { padding: 100px 24px 26px; }
+}

@@ -1,0 +1,140 @@
+/* Navegación translúcida */
+
+.nav {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 100;
+  height: var(--nav-h);
+  background: rgba(251, 250, 247, 0.72);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  box-shadow: 0 1px 0 transparent;
+  transition: background-color 400ms ease, box-shadow 400ms ease;
+}
+.nav.is-scrolled { box-shadow: 0 1px 0 var(--line); }
+.nav.is-dark { background: rgba(3, 24, 42, 0.62); box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06); }
+.nav.is-dark .nav__links a { color: rgba(245, 245, 247, 0.82); }
+.nav.is-dark .nav__links a:hover { color: #fff; }
+.nav.is-dark .nav__toggle span { background: var(--text-light); }
+.nav.is-dark .nav__brand img { filter: brightness(0) invert(1); }
+
+.nav__inner {
+  max-width: calc(var(--max) + 2 * var(--gutter));
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+.nav__brand img { height: 20px; width: auto; transition: filter 400ms ease; }
+.nav__links {
+  display: flex;
+  gap: 30px;
+  margin-left: auto;
+  font-size: 0.8125rem;
+  letter-spacing: 0.005em;
+}
+.nav__links a { color: rgba(29, 29, 31, 0.78); transition: color 200ms ease; }
+.nav__links a:hover { color: var(--navy); }
+
+.nav__toggle {
+  display: none;
+  width: 44px;
+  height: 44px;
+  margin: 0 -12px 0 auto;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  position: relative;
+}
+.nav__toggle span {
+  position: absolute;
+  left: 13px;
+  width: 18px;
+  height: 1.5px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: transform 320ms var(--ease-out), background-color 400ms ease;
+}
+.nav__toggle span:first-child { top: 18px; }
+.nav__toggle span:last-child { top: 25px; }
+.nav__toggle[aria-expanded="true"] span:first-child { transform: translateY(3.5px) rotate(45deg); }
+.nav__toggle[aria-expanded="true"] span:last-child { transform: translateY(-3.5px) rotate(-45deg); }
+
+@media (max-width: 760px) {
+  .nav__toggle { display: block; }
+  .nav__links {
+    position: absolute;
+    top: var(--nav-h);
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    gap: 0;
+    margin: 0;
+    padding: 8px var(--gutter) 28px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    background: rgba(251, 250, 247, 0.95);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    transform: translateY(-8px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 220ms var(--ease-in), transform 220ms var(--ease-in), visibility 0s 220ms;
+  }
+  .nav__links a { padding: 10px 0; color: var(--text); }
+  .nav.is-dark .nav__links { background: rgba(3, 24, 42, 0.95); }
+  .nav.is-open .nav__links {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition: opacity 320ms var(--ease-out), transform 320ms var(--ease-out), visibility 0s;
+  }
+}
+
+/* Pila de paneles: el top lo calcula js/core/layout.js */
+
+.stack { position: relative; }
+
+.panel {
+  position: sticky;
+  top: 0;
+  min-height: 100vh;
+  min-height: 100svh;
+  overflow: clip;
+  isolation: isolate;
+  transform-origin: 50% 50%;
+  border-radius: var(--r-in, 0) var(--r-in, 0) var(--r-out, 0) var(--r-out, 0);
+  box-shadow: 0 -24px 60px -20px rgba(0, 0, 0, var(--lift, 0));
+}
+.panel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  background: #000;
+  opacity: var(--shade, 0);
+  pointer-events: none;
+}
+.panel[data-theme="light"] { background: var(--bg); }
+.panel[data-theme="dark"] { background: var(--deep); color: var(--text-light); }
+
+.panel__body {
+  position: relative;
+  width: 100%;
+  max-width: calc(var(--max) + 2 * var(--gutter));
+  margin: 0 auto;
+  padding: calc(var(--nav-h) + clamp(48px, 10vh, 120px)) var(--gutter) clamp(64px, 12vh, 140px);
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .nav, .nav__links { backdrop-filter: none; -webkit-backdrop-filter: none; background: var(--bg) !important; }
+  .nav.is-dark, .nav.is-dark .nav__links { background: var(--deep) !important; }
+}
+
+@media (prefers-contrast: more) {
+  .nav { background: var(--bg); box-shadow: 0 1px 0 rgba(0, 0, 0, 0.4); }
+}
