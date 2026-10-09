@@ -64,22 +64,49 @@
   will-change: transform;
 }
 .tool__glow {
+  --glow: 173, 224, 234;
   position: absolute;
   inset: 12%;
   border-radius: 50%;
-  background: radial-gradient(closest-side, rgba(173, 224, 234, 0.22), transparent);
+  background: radial-gradient(closest-side, rgba(var(--glow), var(--glow-a, 0.22)), transparent);
   filter: blur(20px);
   animation: breathe 5s ease-in-out infinite alternate;
+  will-change: transform;
 }
+.tool__parts,
 .part {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  opacity: 0;
-  will-change: transform, opacity;
 }
-.part[data-part="exploded"] { opacity: 1; }
+.tool__parts {
+  -webkit-mask-image: linear-gradient(to top, transparent var(--w, -20%), #000 calc(var(--w, -20%) + 14%));
+  mask-image: linear-gradient(to top, transparent var(--w, -20%), #000 calc(var(--w, -20%) + 14%));
+}
+.part { will-change: transform, opacity; }
+/* Cada pieza gira y escala sobre su propio centro */
+.part[data-part="handle"] { transform-origin: 50% 40%; }
+.part[data-part="frame"] { transform-origin: 50% 79%; }
+.part[data-part="mesh"] { transform-origin: 23% 82%; }
+.part[data-part="plate"] { transform-origin: 66% 58%; }
+.part[data-part="final"] {
+  opacity: 0;
+  -webkit-mask-image: linear-gradient(to top, #000 var(--w, -20%), transparent calc(var(--w, -20%) + 14%));
+  mask-image: linear-gradient(to top, #000 var(--w, -20%), transparent calc(var(--w, -20%) + 14%));
+}
+
+/* Línea de luz que recorre el modelo mientras se materializa */
+.tool__glint {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  background: linear-gradient(to top, transparent calc(var(--w, -20%) - 2%), rgba(255, 255, 255, 0.95) calc(var(--w, -20%) + 6%), transparent calc(var(--w, -20%) + 14%));
+  -webkit-mask: url("../../assets/img/render-front.webp") center / 100% 100% no-repeat;
+  mask: url("../../assets/img/render-front.webp") center / 100% 100% no-repeat;
+  mix-blend-mode: screen;
+}
 
 .callout {
   position: absolute;
@@ -155,7 +182,7 @@
   .tool__stage { position: relative; height: auto; padding-block: 120px 80px; }
   .tool__text { min-height: 0; display: grid; gap: 40px; }
   .tool__slide { position: static; opacity: 1 !important; }
-  .part { display: none; }
-  .part[data-part="final"] { display: block; opacity: 1; position: relative; }
+  .tool__parts, .tool__glint { display: none; }
+  .part[data-part="final"] { opacity: 1; position: relative; -webkit-mask-image: none; mask-image: none; }
   .callout, .tool__progress { display: none; }
 }
