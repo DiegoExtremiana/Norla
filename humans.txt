@@ -8,3 +8,4 @@ Fotografías de campo: Cabo Verde Natura 2000
 /* SITE */
 Idioma: Español
 Estándares: HTML5, CSS3, JavaScript (módulos ES)
+Despliegue: GitHub Pages
