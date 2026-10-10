@@ -81,7 +81,7 @@ Desarrollado sin frameworks ni librerías de animación, para tener un control t
 ├── assets/img/          imágenes optimizadas para la web
 └── tests/
     ├── unit/            node:test sobre los módulos de js/core y la pila
-    └── e2e/             Playwright en iPhone (WebKit), Android, escritorio y movimiento reducido
+    └── e2e/             Playwright en Safari, Chrome, Firefox y Brave (móvil, tablet y escritorio)
 ```
 
 ## Ejecución en local
@@ -100,10 +100,21 @@ El sitio no tiene dependencias; Playwright solo se instala para los tests.
 
 ```bash
 npm install
-npx playwright install chromium webkit
+npx playwright install chromium webkit firefox
 npm test              # unitarios + end-to-end
 npm run test:unit     # solo unitarios (sin dependencias)
 ```
+
+Los end-to-end se ejecutan en cada motor y tamaño de pantalla:
+
+| Motor | Configuraciones |
+| --- | --- |
+| WebKit (Safari) | iPhone 13, iPhone SE, iPad, escritorio |
+| Chromium (base de Chrome, Brave y Edge) | Pixel 7 en vertical y horizontal, escritorio |
+| Gecko (Firefox) | escritorio y pantalla estrecha |
+| Navegadores instalados | Chrome y Brave reales, si están en el equipo |
+
+Además hay un proyecto con `prefers-reduced-motion` activado.
 
 Los end-to-end recorren la página entera y comprueban, entre otras cosas, que no haya errores ni recursos rotos, que la pila de paneles nunca acumule más de tres capas en pantalla ni pinte una sección en el orden equivocado, que no haya scroll horizontal y que las escenas, la navegación y el modo de movimiento reducido funcionen.
 

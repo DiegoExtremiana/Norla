@@ -30,6 +30,15 @@ test('el muelle converge sin rebasar el objetivo', () => {
   assert.ok(spring.isAt(1));
 });
 
+test('un dt nulo o negativo no mueve el muelle', () => {
+  const spring = createSpring(0.14);
+  spring.update(0, 0.016);
+  const value = spring.update(1, 0.02);
+  assert.equal(spring.update(1, -0.2), value);
+  assert.equal(spring.update(1, 0), value);
+  assert.ok(Number.isFinite(spring.update(1, -50)));
+});
+
 test('el muelle se puede interrumpir y parte del valor actual', () => {
   const spring = createSpring(0.14);
   spring.update(0, 0.016);

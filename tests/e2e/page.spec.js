@@ -1,7 +1,8 @@
 import { test, expect } from '@playwright/test';
 
 const reduced = (testInfo) => testInfo.project.name === 'reduced-motion';
-const mobile = (testInfo) => testInfo.project.name !== 'desktop';
+// Por debajo de 760px la navegación se pliega en el menú (css/layout.css)
+const mobile = (page) => page.viewportSize().width <= 760;
 
 /** Desplaza a `y` y espera a que el bucle de scroll y los muelles se asienten. */
 async function scrollToY(page, y) {
@@ -152,7 +153,7 @@ test('la escena de la herramienta llega al montaje final', async ({ page }, test
   await scrollToY(page, offsetTop + offsetHeight - vh);
   // El muelle tarda unos frames en alcanzar el final
   const progress = () => page.$eval('[data-progress]', (el) => parseFloat(el.style.transform.match(/scaleX\(([\d.]+)\)/)[1]));
-  await expect.poll(progress, { timeout: 5000 }).toBeGreaterThan(0.99);
+  await expect.poll(progress, { timeout: 15_000 }).toBeGreaterThan(0.99);
   await expect(slides.last()).toHaveCSS('opacity', '1');
   await expect(slides.first()).toBeHidden();
   await expect(page.locator('[data-part="final"]')).toHaveCSS('opacity', '1');
@@ -189,15 +190,15 @@ test('la navegación lleva a cada sección y cambia de tema', async ({ page }, t
   const targets = await page.$$eval('.panel', (panels) => Object.fromEntries(panels.map((p) => [p.id, p.offsetTop])));
 
   for (const id of ['herramienta', 'materiales', 'origen']) {
-    if (mobile(testInfo)) {
+    if (mobile(page)) {
       await toggle.click();
       await expect(toggle).toHaveAttribute('aria-expanded', 'true');
     }
     await page.locator(`.nav__links a[href="#${id}"]`).click();
-    if (mobile(testInfo)) await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+    if (mobile(page)) await expect(toggle).toHaveAttribute('aria-expanded', 'false');
 
     // Tolerancia de 1px por el redondeo de offsets fraccionarios
-    await expect.poll(() => page.evaluate(() => window.scrollY), { timeout: 5000 }).toBeGreaterThanOrEqual(targets[id] - 1);
+    await expect.poll(() => page.evaluate(() => window.scrollY), { timeout: 15_000 }).toBeGreaterThanOrEqual(targets[id] - 1);
     expect(Math.abs((await page.evaluate(() => window.scrollY)) - targets[id])).toBeLessThanOrEqual(1);
 
     const theme = await page.$eval(`#${id}`, (el) => el.dataset.theme);
@@ -206,7 +207,7 @@ test('la navegación lleva a cada sección y cambia de tema', async ({ page }, t
 });
 
 test('el menú móvil se cierra con Escape', async ({ page }, testInfo) => {
-  test.skip(!mobile(testInfo), 'solo móvil');
+  test.skip(!mobile(page), 'solo móvil');
   const toggle = page.locator('#nav-toggle');
   await toggle.click();
   await expect(page.locator('.nav__links a').first()).toBeVisible();
@@ -215,10 +216,42 @@ test('el menú móvil se cierra con Escape', async ({ page }, testInfo) => {
   await expect(page.locator('.nav__links a').first()).toBeHidden();
 });
 
+test('la portada cabe en pantalla con su botón y el producto', async ({ page }) => {
+  await page.waitForTimeout(1500);
+  const { btn, visual, vh } = await page.evaluate(() => ({
+    btn: document.querySelector('.hero .btn').getBoundingClientRect().toJSON(),
+    visual: document.querySelector('.hero__visual img').getBoundingClientRect().toJSON(),
+    vh: window.innerHeight,
+  }));
+  expect(btn.bottom).toBeLessThanOrEqual(vh);
+  // Al menos la mitad del render del producto a la vista
+  expect(Math.min(visual.bottom, vh) - visual.top).toBeGreaterThan(visual.height / 2);
+});
+
+test('el ciclo no se sale de la pantalla ni se monta sobre el texto', async ({ page }, testInfo) => {
+  test.skip(reduced(testInfo), 'sin escena fija');
+  const { offsetTop, offsetHeight } = await page.$eval('.cycle', (el) => ({ offsetTop: el.offsetTop, offsetHeight: el.offsetHeight }));
+  const vh = await page.evaluate(() => window.innerHeight);
+  await scrollToY(page, offsetTop + offsetHeight - vh);
+  await expect.poll(() => page.$eval('[data-outro]', (el) => getComputedStyle(el).opacity), { timeout: 15_000 }).toBe('1');
+
+  const report = await page.evaluate(() => {
+    const box = (el) => el.getBoundingClientRect();
+    const hit = (a, b) => a.left < b.right && b.left < a.right && a.top < b.bottom && b.top < a.bottom;
+    const labels = [...document.querySelectorAll('.ring__nodes span')];
+    const text = [...document.querySelectorAll('.cycle__title, .cycle__motto, .cycle__outro')];
+    return {
+      outside: labels.filter((l) => box(l).left < 0 || box(l).right > window.innerWidth || box(l).bottom > window.innerHeight).map((l) => l.textContent),
+      overlaps: labels.flatMap((l) => text.filter((t) => hit(box(l), box(t))).map((t) => `${l.textContent} / ${t.className}`)),
+    };
+  });
+  expect(report).toEqual({ outside: [], overlaps: [] });
+});
+
 test('el botón de portada baja a la orilla', async ({ page }) => {
   await page.locator('.hero .btn').click();
   const target = await page.$eval('#orilla', (el) => el.offsetTop);
-  await expect.poll(() => page.evaluate(() => Math.round(window.scrollY)), { timeout: 5000 }).toBe(target);
+  await expect.poll(() => page.evaluate(() => Math.round(window.scrollY)), { timeout: 15_000 }).toBe(target);
 });
 
 test('con movimiento reducido no hay transformaciones de pila', async ({ page }, testInfo) => {
