@@ -16,7 +16,7 @@ export function createSpring(response = 0.14) {
   return {
     update(target, dt) {
       if (value === null) value = target;
-      value += (target - value) * (1 - Math.exp((-dt / response) * 2.5));
+      if (dt > 0) value += (target - value) * (1 - Math.exp((-dt / response) * 2.5));
       if (Math.abs(target - value) < 0.0002) value = target;
       return value;
     },

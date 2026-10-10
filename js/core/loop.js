@@ -2,6 +2,7 @@
 // mientras hay scroll o alguna animación sigue en marcha.
 
 import { viewportHeight } from './layout.js';
+import { clamp } from './math.js';
 
 const tasks = [];
 let running = false;
@@ -29,7 +30,9 @@ function tick(now) {
   const frame = {
     y: window.scrollY,
     vh: viewportHeight(),
-    dt: Math.min(0.05, (now - lastTime) / 1000),
+    // La marca del frame puede ser anterior al performance.now() de
+    // requestFrame (Firefox la toma al inicio del vsync): nunca negativo
+    dt: clamp((now - lastTime) / 1000, 0, 0.05),
   };
   lastTime = now;
 
