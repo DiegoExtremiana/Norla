@@ -79,6 +79,24 @@
   filter: drop-shadow(0 30px 40px rgba(2, 74, 125, 0.16));
 }
 
+/* Móvil en horizontal: en vertical no cabe, texto y producto lado a lado */
+@media (orientation: landscape) and (max-height: 540px) {
+  .hero__inner {
+    flex-direction: row;
+    justify-content: center;
+    gap: clamp(24px, 5vw, 64px);
+    padding-top: calc(var(--nav-h) + 12px);
+    padding-bottom: 12px;
+    text-align: left;
+  }
+  .hero__copy { flex: 0 1 auto; align-self: center; align-items: flex-start; }
+  .hero__title img { width: clamp(150px, 24vw, 260px); }
+  .hero__lead { margin-top: 10px; font-size: clamp(1.25rem, 3vw, 1.75rem); }
+  .hero__sub { margin-top: 8px; font-size: 0.9375rem; max-width: 40ch; }
+  .hero__copy .btn { margin-top: 14px; min-height: 42px; }
+  .hero__visual { flex: 0 0 auto; width: auto; height: 100%; margin-top: 0; }
+}
+
 .intro {
   opacity: 0;
   transform: translate3d(0, 18px, 0);

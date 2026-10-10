@@ -156,9 +156,37 @@
   .cycle__title { font-size: clamp(1.6rem, 6.4vw, 2.2rem); }
   .cycle__body { display: none; }
   .cycle__motto { margin-top: 12px; font-size: 1.0625rem; }
-  .cycle__ring { width: min(84vw, 46svh); align-self: center; }
+  /* Hueco a los lados para las etiquetas de los nodos */
+  .cycle__ring { width: min(100vw - 2 * var(--gutter) - 72px, 46svh); margin-top: 12px; align-self: center; }
   .ring__nodes span { font-size: 0.625rem; letter-spacing: 0.04em; }
+  .ring__captions p { font-size: 0.8125rem; }
   .cycle__outro { bottom: 24px; font-size: 1rem; }
+}
+@media (max-width: 860px) and (max-height: 600px) {
+  .cycle__title { font-size: 1.375rem; }
+  .cycle__motto { font-size: 0.9375rem; }
+  .cycle__stage { padding-bottom: 64px; }
+  .cycle__ring { width: min(100vw - 2 * var(--gutter) - 72px, 40svh); }
+  .ring__captions p { font-size: 0.6875rem; }
+  .cycle__outro { bottom: 12px; font-size: 0.875rem; }
+}
+
+/* Móvil en horizontal: texto y anillo lado a lado */
+@media (orientation: landscape) and (max-height: 540px) {
+  .cycle__stage {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: none;
+    gap: 24px;
+    padding-top: calc(var(--nav-h) + 8px);
+    padding-bottom: 48px;
+  }
+  .cycle__title { font-size: clamp(1.4rem, 3.6vw, 1.9rem); }
+  .cycle__body { display: none; }
+  .cycle__motto { margin-top: 12px; font-size: 1.0625rem; }
+  .cycle__ring { width: min(100%, 58svh); }
+  .ring__nodes span { font-size: 0.625rem; letter-spacing: 0.04em; }
+  .ring__captions p { font-size: 0.75rem; }
+  .cycle__outro { bottom: 14px; font-size: 0.9375rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
