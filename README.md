@@ -78,7 +78,10 @@ Desarrollado sin frameworks ni librerías de animación, para tener un control t
 │   ├── main.js          punto de entrada
 │   ├── core/            bucle, layout, matemáticas y muelles
 │   └── modules/         una escena por sección
-└── assets/img/          imágenes optimizadas para la web
+├── assets/img/          imágenes optimizadas para la web
+└── tests/
+    ├── unit/            node:test sobre los módulos de js/core y la pila
+    └── e2e/             Playwright en iPhone (WebKit), Android, escritorio y movimiento reducido
 ```
 
 ## Ejecución en local
@@ -90,6 +93,19 @@ npx serve .
 # o
 python -m http.server
 ```
+
+## Tests
+
+El sitio no tiene dependencias; Playwright solo se instala para los tests.
+
+```bash
+npm install
+npx playwright install chromium webkit
+npm test              # unitarios + end-to-end
+npm run test:unit     # solo unitarios (sin dependencias)
+```
+
+Los end-to-end recorren la página entera y comprueban, entre otras cosas, que no haya errores ni recursos rotos, que la pila de paneles nunca acumule más de tres capas en pantalla ni pinte una sección en el orden equivocado, que no haya scroll horizontal y que las escenas, la navegación y el modo de movimiento reducido funcionen.
 
 ## Créditos
 
