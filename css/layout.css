@@ -107,7 +107,7 @@
   overflow: clip;
   isolation: isolate;
   transform-origin: 50% 50%;
-  border-radius: var(--r-in, 0) var(--r-in, 0) var(--r-out, 0) var(--r-out, 0);
+  border-radius: var(--ra, 0) var(--ra, 0) var(--rb, 0) var(--rb, 0);
   box-shadow: 0 -24px 60px -20px rgba(0, 0, 0, var(--lift, 0));
 }
 .panel::after {

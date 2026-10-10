@@ -14,14 +14,25 @@ export function initStack() {
     update({ y, vh }) {
       const still = reducedMotion();
 
-      panels.forEach((panel, i) => {
-        const next = panels[i + 1];
-        const covered = next ? clamp(1 - panelTop(i + 1, y) / vh) : 0;
-        const back = still ? 0 : easeOut(covered);
-        const shade = back * (panel.dataset.theme === 'dark' ? 0.55 : 0.4);
+      // 1px de tolerancia: el scroll máximo se redondea y el último panel
+      // puede quedarse a una fracción de píxel de tapar del todo al anterior
+      const covered = panels.map((_, i) => (panels[i + 1] ? clamp(1 - Math.max(0, panelTop(i + 1, y) - 1) / vh) : 0));
 
+      panels.forEach((panel, i) => {
+        // Tapado del todo y sin que el siguiente retroceda: no se ve. Se deja
+        // transparente para que la GPU no acumule una capa por panel al bajar
+        // (opacity y no visibility, para no sacarlo del árbol de accesibilidad).
+        const hidden = covered[i] >= 1 && (covered[i + 1] === 0 || covered[i + 1] >= 1);
+        setStyle(panel, 'opacity', hidden ? '0' : '');
         // Los bucles CSS solo corren si el panel se ve
-        panel.classList.toggle('is-playing', panelTop(i, y) < vh && covered < 1);
+        panel.classList.toggle('is-playing', !hidden && panelTop(i, y) < vh && covered[i] < 1);
+        if (hidden) {
+          setStyle(panel, 'transform', '');
+          return;
+        }
+
+        const back = still ? 0 : easeOut(covered[i]);
+        const shade = back * (panel.dataset.theme === 'dark' ? 0.55 : 0.4);
 
         setStyle(panel, 'transform', back > 0 ? `scale(${(1 - back * SCALE).toFixed(4)})` : '');
         setStyle(panel, '--shade', shade.toFixed(3));

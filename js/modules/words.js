@@ -6,11 +6,11 @@ import { range } from '../core/math.js';
 export function initWords() {
   const blocks = [...document.querySelectorAll('[data-words]')].map((el) => {
     const text = el.textContent.trim().replace(/\s+/g, ' ');
-    el.setAttribute('aria-label', text);
-    el.innerHTML = text
+    // aria-label no se anuncia en un <p>: el texto accesible va aparte
+    el.innerHTML = `<span class="sr-only">${text}</span><span aria-hidden="true">${text
       .split(' ')
-      .map((word) => `<span class="w" aria-hidden="true">${word}</span>`)
-      .join(' ');
+      .map((word) => `<span class="w">${word}</span>`)
+      .join(' ')}</span>`;
 
     return { index: panelIndex(el), words: [...el.querySelectorAll('.w')], lit: -1 };
   });

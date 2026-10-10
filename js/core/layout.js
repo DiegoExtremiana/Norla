@@ -10,12 +10,21 @@ export const panelHeight = (i) => geo.heights[i];
 export const panelOffset = (i) => geo.offsets[i];
 export const panelIndex = (el) => panels.indexOf(el.closest('.panel'));
 
+// Alto de pantalla estable (100svh): en móvil innerHeight cambia al ocultarse
+// la barra de direcciones y haría saltar los paneles fijados.
+const probe = document.createElement('div');
+probe.setAttribute('aria-hidden', 'true');
+probe.style.cssText = 'position:fixed;top:0;left:0;width:0;height:100vh;height:100svh;visibility:hidden;pointer-events:none';
+document.body.append(probe);
+
 export function measure() {
-  geo.vh = window.innerHeight;
+  geo.vh = probe.offsetHeight || window.innerHeight;
   let acc = panels[0]?.parentElement.offsetTop ?? 0;
 
   panels.forEach((panel, i) => {
-    const h = panel.offsetHeight;
+    // Alto fraccionario y sin la escala de la pila: offsetHeight redondea y el
+    // error se acumula panel a panel
+    const h = parseFloat(getComputedStyle(panel).height) || panel.offsetHeight;
     geo.offsets[i] = acc;
     geo.heights[i] = h;
     // Se queda fijo cuando su borde inferior llega al de la pantalla
@@ -23,6 +32,8 @@ export function measure() {
     acc += h;
 
     panel.style.top = `${geo.pins[i]}px`;
+    // Orden explícito: WebKit duda con hermanos sticky transformados
+    panel.style.zIndex = i + 1;
     panel.style.transformOrigin = `50% ${Math.max(h - geo.vh / 2, h / 2)}px`;
   });
 
