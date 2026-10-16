@@ -47,7 +47,7 @@
   <header class="nav" id="nav">
     <div class="nav__inner">
       <a href="#top" class="nav__brand" aria-label="N’Orla, inicio">
-        <img src="assets/img/wordmark-blue.png" alt="N’Orla" width="1035" height="300">
+        <img src="assets/img/wordmark-blue.png" alt="N’Orla" width="1026" height="315">
       </a>
       <nav class="nav__links" id="nav-links" aria-label="Secciones">
         <a href="#orilla">La orilla</a>
@@ -69,7 +69,7 @@
       <div class="panel__body hero__inner">
         <div class="hero__copy" data-hero-copy>
           <h1 class="hero__title intro" id="hero-title">
-            <img src="assets/img/wordmark-blue.png" alt="N’Orla" width="1035" height="300">
+            <img src="assets/img/wordmark-blue.png" alt="N’Orla" width="1026" height="315">
           </h1>
           <p class="hero__tag intro">Donde la vida anida</p>
           <p class="hero__lead intro">Una nueva forma de cuidar la&nbsp;orilla.</p>
@@ -162,7 +162,7 @@
         <figure class="care__figure reveal">
           <img src="assets/img/hatchling-hand.webp" alt="Cría de tortuga marina con arena sobre la palma de una mano" loading="lazy">
           <figcaption>
-            <img src="assets/img/turtle-white.png" alt="" width="1140" height="1200" loading="lazy">
+            <img src="assets/img/turtle-white.png" alt="" width="1133" height="1264" loading="lazy">
             Especialmente donde la vida anida.
           </figcaption>
         </figure>
@@ -201,7 +201,7 @@
             <li data-node style="--a:4"><span>N’Orla</span></li>
           </ol>
           <div class="ring__center">
-            <img src="assets/img/turtle-white.png" alt="" width="1140" height="1200">
+            <img src="assets/img/turtle-white.png" alt="" width="1133" height="1264">
             <div class="ring__captions">
               <p data-caption>Donde todo empieza.</p>
               <p data-caption>Lo que el mar devuelve.</p>
@@ -225,40 +225,25 @@
           <p class="section-head__body reveal">N’Orla busca reducir la incorporación de materiales nuevos y aprovechar aquellos que ya existen en el entorno.</p>
         </header>
         <div class="materials__grid">
-          <article class="material material--plastic reveal">
-            <svg class="material__texture" aria-hidden="true" preserveAspectRatio="none">
-              <filter id="tex-plastic" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
-                <feTurbulence type="fractalNoise" baseFrequency="0.009 0.02" numOctaves="5" seed="11"/>
-                <feColorMatrix type="matrix" values="0 0 0 0 0.12  0 0 0 0 0.47  0 0 0 0 0.78  9 0 0 0 -4.3"/>
-              </filter>
-              <filter id="tex-plastic-2" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
-                <feTurbulence type="fractalNoise" baseFrequency="0.026 0.045" numOctaves="4" seed="4"/>
-                <feColorMatrix type="matrix" values="0 0 0 0 0.55  0 0 0 0 0.73  0 0 0 0 0.9  0 7 0 0 -3.3"/>
-              </filter>
-              <rect width="100%" height="100%" fill="#eef1f4"/>
-              <rect width="100%" height="100%" style="filter:url(#tex-plastic-2)"/>
-              <rect width="100%" height="100%" style="filter:url(#tex-plastic)"/>
-            </svg>
+          <article class="material material--pead reveal">
+            <img class="material__texture" src="assets/img/material-pead.webp" alt="Muestra de panel de PEAD con residuo marino: plástico blanco con vetas azules" width="438" height="505" loading="lazy">
             <div class="material__copy">
-              <h3>Plástico recuperado</h3>
+              <h3>PEAD + Residuo marino</h3>
               <p>Utilizado en la estructura del sistema a partir de residuos recogidos en las propias playas.</p>
             </div>
           </article>
           <article class="material material--wool reveal">
-            <svg class="material__texture" aria-hidden="true" preserveAspectRatio="none">
-              <filter id="tex-wool" x="0" y="0" width="100%" height="100%">
-                <feTurbulence type="turbulence" baseFrequency="0.012 0.045" numOctaves="4" seed="3" result="n"/>
-                <feDiffuseLighting in="n" surfaceScale="3.2" lighting-color="#fbf4e8" result="l">
-                  <feDistantLight azimuth="235" elevation="48"/>
-                </feDiffuseLighting>
-                <feComposite in="l" in2="SourceGraphic" operator="in"/>
-              </filter>
-              <rect width="100%" height="100%" fill="#e9dfcf"/>
-              <rect width="100%" height="100%" fill="#000" style="filter:url(#tex-wool)" opacity=".9"/>
-            </svg>
+            <img class="material__texture" src="assets/img/material-wool.webp" alt="Lana natural sin procesar vista de cerca" width="1400" height="932" loading="lazy">
             <div class="material__copy">
               <h3>Lana</h3>
               <p>Material natural empleado en el sistema de filtrado por sus propiedades de retención y su carácter renovable.</p>
+            </div>
+          </article>
+          <article class="material material--cellulose reveal">
+            <img class="material__texture" src="assets/img/material-cellulose.webp" alt="Muestra circular de filtro de celulosa sujeta con guantes de laboratorio" width="900" height="1600" loading="lazy">
+            <div class="material__copy">
+              <h3>Filtro de celulosa</h3>
+              <p>Otra vía de investigación: un filtro desarrollado en laboratorio a partir de celulosa y biopolímeros como PLA o PHB, que refuerzan su aguante al agua. Mediante liofilización se genera una estructura porosa que favorece la retención de microplásticos.</p>
             </div>
           </article>
         </div>
@@ -312,12 +297,12 @@
       <div class="panel__body identity__inner">
         <div class="identity__mark reveal">
           <div class="ridges ridges--halo" data-ridges="7" aria-hidden="true"></div>
-          <img src="assets/img/turtle-blue.png" alt="Símbolo de N’Orla: una huella dactilar con forma de tortuga" width="1140" height="1200" loading="lazy">
+          <img src="assets/img/turtle-blue.png" alt="Símbolo de N’Orla: una huella dactilar con forma de tortuga" width="1133" height="1264" loading="lazy">
         </div>
         <div class="identity__copy">
           <p class="eyebrow reveal">08 — La identidad</p>
           <h2 id="identity-title" class="identity__logo reveal">
-            <img src="assets/img/wordmark-blue.png" alt="N’Orla" width="1035" height="300" loading="lazy">
+            <img src="assets/img/wordmark-blue.png" alt="N’Orla" width="1026" height="315" loading="lazy">
           </h2>
           <p class="identity__tag reveal">Donde la vida anida.</p>
           <div class="identity__cols">
@@ -339,7 +324,7 @@
           <span class="reveal closing__second">Necesita cuidado.</span>
         </h2>
         <div class="closing__brand reveal">
-          <img src="assets/img/wordmark-white.png" alt="N’Orla" width="1035" height="300" loading="lazy">
+          <img src="assets/img/wordmark-white.png" alt="N’Orla" width="1026" height="315" loading="lazy">
           <p>Donde la vida anida.</p>
         </div>
       </div>

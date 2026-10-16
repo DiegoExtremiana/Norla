@@ -27,7 +27,7 @@
   align-items: center;
   gap: 32px;
 }
-.nav__brand img { height: 20px; width: auto; transition: filter 400ms ease; }
+.nav__brand img { height: 21px; width: auto; transition: filter 400ms ease; }
 .nav__links {
   display: flex;
   gap: 30px;

@@ -44,7 +44,7 @@ Una página única construida como una pila de paneles que avanzan con el scroll
 | 02 Herramienta | Despiece animado a partir de los renders: piezas, modo cribar, modo filtrar y montaje final |
 | 03 Diseñada para no invadir | Por qué una herramienta manual frente a la limpieza mecanizada |
 | 04 Del residuo al recurso | Diagrama circular del ciclo playa → residuo → recogida → transformación → N’Orla |
-| 05 Materiales | Plástico recuperado y lana, con texturas generadas con filtros SVG |
+| 05 Materiales | PEAD + residuo marino, lana y filtro de celulosa, con fotos de las muestras |
 | 06 Para quién | Voluntarios, ONG, equipos de limpieza y comunidades locales |
 | 07 El origen | Cabo Verde, la pregunta que guía el proyecto y la identidad visual |
 

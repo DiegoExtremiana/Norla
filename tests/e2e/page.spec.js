@@ -17,7 +17,12 @@ const maxScroll = (page) => page.evaluate(() => document.documentElement.scrollH
 const panelState = (page) => page.evaluate(() => {
   const vh = window.innerHeight;
   const panels = [...document.querySelectorAll('.panel')];
-  const hit = document.elementFromPoint(window.innerWidth / 2, vh / 2)?.closest('.panel');
+  // Punto de muestreo lejos de cualquier borde: con tops fraccionarios el
+  // navegador redondea el píxel y el borde exacto da un resultado ambiguo
+  const edges = panels.flatMap((p) => { const r = p.getBoundingClientRect(); return [r.top, r.bottom]; });
+  let probe = vh / 2;
+  while (edges.some((e) => Math.abs(e - probe) < 2)) probe += 4;
+  const hit = document.elementFromPoint(window.innerWidth / 2, probe)?.closest('.panel');
   return {
     onScreen: panels.filter((p) => {
       const r = p.getBoundingClientRect();
@@ -28,7 +33,7 @@ const panelState = (page) => page.evaluate(() => {
     // El panel de mayor índice que cubre el centro debe ser el que se ve
     expected: panels.reduce((acc, p, i) => {
       const r = p.getBoundingClientRect();
-      return r.top <= vh / 2 && r.bottom >= vh / 2 ? i : acc;
+      return r.top <= probe && r.bottom >= probe ? i : acc;
     }, -1),
   };
 });
@@ -97,6 +102,9 @@ test('no hay scroll horizontal', async ({ page }) => {
 });
 
 test('la pila nunca acumula capas ni pinta un panel en el orden equivocado', async ({ page }) => {
+  // Recorre la página entera a pasos de un tercio de pantalla: en WebKit y con
+  // todos los proyectos en paralelo puede pasar del minuto y medio
+  test.slow();
   const zIndex = await page.$$eval('.panel', (panels) => panels.map((p) => Number(getComputedStyle(p).zIndex)));
   expect(zIndex).toEqual(zIndex.map((_, i) => i + 1));
 
@@ -261,5 +269,123 @@ test('con movimiento reducido no hay transformaciones de pila', async ({ page },
     await scrollToY(page, y);
     const transforms = await page.$$eval('.panel', (panels) => panels.map((p) => p.style.transform).filter(Boolean));
     expect(transforms, `y=${y}`).toEqual([]);
+  }
+});
+
+test('el símbolo de la tortuga se ve entero en todas partes', async ({ page }) => {
+  const selector = 'img[src*="turtle-"], img[src*="wordmark-"]';
+  // Posición de cada imagen con la página arriba, antes de que nada se fije
+  const targets = await page.$$eval(selector, (imgs) => imgs.map((img) => {
+    img.loading = 'eager';
+    const panel = img.closest('.panel');
+    if (!panel) return 0;
+    const top = panel.offsetTop;
+    const inner = img.getBoundingClientRect().top - panel.getBoundingClientRect().top;
+    const room = Math.max(0, panel.offsetHeight - window.innerHeight);
+    // Centra la imagen sin salir del tramo en el que su panel está fijo y entero
+    return top + Math.min(room, Math.max(0, inner - window.innerHeight / 2));
+  }));
+  // Tres símbolos sueltos y cuatro logotipos
+  expect(targets).toHaveLength(7);
+
+  for (const [i, y] of targets.entries()) {
+    await scrollToY(page, y);
+    const { src, edgeAlpha, ratio, clippedBy } = await page.evaluate(async ([sel, n]) => {
+      const img = document.querySelectorAll(sel)[n];
+      await img.decode().catch(() => null);
+
+      // El dibujo no toca ningún borde del archivo: si lo hiciera, estaría recortado
+      const c = document.createElement('canvas');
+      c.width = img.naturalWidth;
+      c.height = img.naturalHeight;
+      const ctx = c.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+      const { width: w, height: h } = c;
+      const edges = [[0, 0, w, 1], [0, h - 1, w, 1], [0, 0, 1, h], [w - 1, 0, 1, h]];
+      const edgeAlpha = Math.max(...edges.map(([x, y, ew, eh]) => {
+        const d = ctx.getImageData(x, y, ew, eh).data;
+        let max = 0;
+        for (let k = 3; k < d.length; k += 4) max = Math.max(max, d[k]);
+        return max;
+      }));
+
+      // Se pinta con su proporción y ningún contenedor con overflow lo corta
+      const r = img.getBoundingClientRect();
+      const visible = r.width > 0 && r.height > 0;
+      const ratio = visible ? (r.width / r.height) / (img.naturalWidth / img.naturalHeight) : 1;
+      const clippedBy = [];
+      for (let el = img.parentElement; visible && el && el !== document.body; el = el.parentElement) {
+        const s = getComputedStyle(el);
+        if (s.overflowX === 'visible' && s.overflowY === 'visible') continue;
+        const b = el.getBoundingClientRect();
+        if (r.left < b.left - 1 || r.right > b.right + 1 || r.top < b.top - 1 || r.bottom > b.bottom + 1) clippedBy.push(el.className);
+      }
+      return { src: img.getAttribute('src'), edgeAlpha, ratio, clippedBy };
+    }, [selector, i]);
+
+    expect(edgeAlpha, src).toBeLessThan(8);
+    // Margen para el redondeo de los iconos pequeños
+    expect(Math.abs(ratio - 1), src).toBeLessThan(0.04);
+    expect(clippedBy, src).toEqual([]);
+  }
+});
+
+test('los materiales muestran sus tres muestras con foto', async ({ page }) => {
+  const cards = page.locator('.material');
+  await expect(cards).toHaveCount(3);
+  await expect(cards.locator('h3')).toHaveText(['PEAD + Residuo marino', 'Lana', 'Filtro de celulosa']);
+  await expect(page.locator('.materials')).not.toContainText('Plástico recuperado');
+  await expect(cards.nth(2)).toContainText('liofilización');
+
+  const top = await page.$eval('.materials', (el) => el.offsetTop);
+  await scrollToY(page, top);
+  const report = await page.evaluate(async () => {
+    const cards = [...document.querySelectorAll('.material')];
+    const imgs = cards.map((c) => c.querySelector('img.material__texture'));
+    for (const img of imgs) img.loading = 'eager';
+    await Promise.all(imgs.map((img) => img?.decode().catch(() => null)));
+    return cards.map((card, i) => {
+      // Medidas de maquetación: la animación de entrada desplaza las tarjetas
+      const box = { left: card.offsetLeft, top: card.offsetTop, width: card.offsetWidth, height: card.offsetHeight };
+      const copy = card.querySelector('.material__copy');
+      const img = imgs[i];
+      return {
+        src: img.getAttribute('src'),
+        loaded: img.naturalWidth > 0,
+        fit: getComputedStyle(img).objectFit,
+        // La foto llena la tarjeta y el texto cabe dentro
+        fills: img.offsetWidth === box.width && img.offsetHeight === box.height,
+        copyInside: copy.offsetTop >= 0 && copy.offsetTop + copy.offsetHeight <= box.height,
+        box,
+      };
+    });
+  });
+
+  expect(report.map((r) => r.src)).toEqual([
+    'assets/img/material-pead.webp',
+    'assets/img/material-wool.webp',
+    'assets/img/material-cellulose.webp',
+  ]);
+  for (const r of report) expect(r).toMatchObject({ loaded: true, fit: 'cover', fills: true, copyInside: true });
+
+  // La lana a la derecha del PEAD y la celulosa a la derecha de la lana (escritorio),
+  // debajo ocupando todo el ancho (tablet) o en una sola columna (móvil)
+  const [pead, wool, cell] = report.map((r) => r.box);
+  const width = page.viewportSize().width;
+  if (width > 760) {
+    expect(wool.top).toBe(pead.top);
+    expect(wool.left).toBeGreaterThan(pead.left);
+  }
+  if (width > 1100) {
+    expect(cell.top).toBe(wool.top);
+    expect(cell.left).toBeGreaterThan(wool.left);
+  } else if (width > 760) {
+    expect(cell.top).toBeGreaterThan(pead.top);
+    expect(cell.left).toBe(pead.left);
+    expect(cell.width).toBeGreaterThan(pead.width * 1.8);
+  } else {
+    expect(new Set([pead.left, wool.left, cell.left]).size).toBe(1);
+    expect(wool.top).toBeGreaterThan(pead.top);
+    expect(cell.top).toBeGreaterThan(wool.top);
   }
 });
