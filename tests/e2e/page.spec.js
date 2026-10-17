@@ -355,7 +355,7 @@ test('los materiales muestran sus tres muestras con foto', async ({ page }) => {
         fit: getComputedStyle(img).objectFit,
         // La foto llena la tarjeta y el texto cabe dentro
         fills: img.offsetWidth === box.width && img.offsetHeight === box.height,
-        copyInside: copy.offsetTop >= 0 && copy.offsetTop + copy.offsetHeight <= box.height,
+        copyInside: copy.offsetTop >= 0 && copy.offsetTop + copy.offsetHeight <= box.height + 1, // 1 px de redondeo
         box,
       };
     });
@@ -369,7 +369,7 @@ test('los materiales muestran sus tres muestras con foto', async ({ page }) => {
   for (const r of report) expect(r).toMatchObject({ loaded: true, fit: 'cover', fills: true, copyInside: true });
 
   // La lana a la derecha del PEAD y la celulosa a la derecha de la lana (escritorio),
-  // debajo ocupando todo el ancho (tablet) o en una sola columna (móvil)
+  // apilada bajo la lana junto a un PEAD de doble altura (tablet) o lado a lado bajo el PEAD (móvil)
   const [pead, wool, cell] = report.map((r) => r.box);
   const width = page.viewportSize().width;
   if (width > 760) {
@@ -380,12 +380,14 @@ test('los materiales muestran sus tres muestras con foto', async ({ page }) => {
     expect(cell.top).toBe(wool.top);
     expect(cell.left).toBeGreaterThan(wool.left);
   } else if (width > 760) {
-    expect(cell.top).toBeGreaterThan(pead.top);
-    expect(cell.left).toBe(pead.left);
-    expect(cell.width).toBeGreaterThan(pead.width * 1.8);
-  } else {
-    expect(new Set([pead.left, wool.left, cell.left]).size).toBe(1);
-    expect(wool.top).toBeGreaterThan(pead.top);
     expect(cell.top).toBeGreaterThan(wool.top);
+    expect(cell.left).toBe(wool.left);
+    expect(pead.top + pead.height).toBe(cell.top + cell.height);
+  } else {
+    expect(wool.left).toBe(pead.left);
+    expect(wool.top).toBeGreaterThan(pead.top + pead.height);
+    expect(cell.top).toBe(wool.top);
+    expect(cell.left).toBeGreaterThan(wool.left);
+    expect(Math.abs(cell.left + cell.width - (pead.left + pead.width))).toBeLessThanOrEqual(1);
   }
 });
