@@ -4,16 +4,19 @@
 .materials__grid {
   margin-top: clamp(40px, 7vh, 72px);
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 1px minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 1px minmax(0, 1fr);
   gap: 20px;
 }
-/* Separador entre el plástico (estructura) y los materiales de filtrado */
-.materials__grid::before {
+/* Separador entre lana y filtro de celulosa */
+.materials__grid::after {
   content: "";
-  grid-column: 2;
+  grid-column: 3;
   grid-row: 1;
   background: var(--line);
 }
+.material--pead { grid-column: 1; grid-row: 1; }
+.material--wool { grid-column: 2; grid-row: 1; }
+.material--cellulose { grid-column: 4; grid-row: 1; }
 .material {
   position: relative;
   min-height: clamp(380px, 58vh, 600px);
@@ -63,21 +66,23 @@
 }
 @media (max-width: 1100px) {
   /* El PEAD ocupa dos filas a la izquierda; lana y celulosa apiladas a la derecha */
-  .materials__grid { grid-template-columns: minmax(0, 1fr) 1px minmax(0, 1fr); column-gap: 28px; }
-  .materials__grid::before { grid-row: 1 / 3; }
-  .material--pead { grid-row: 1 / 3; }
+  .materials__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 28px; }
+  .materials__grid::after { grid-column: 2; grid-row: 2; height: 1px; }
+  .material--pead { grid-row: 1 / 4; }
   .material--wool,
-  .material--cellulose { grid-column: 3; min-height: clamp(300px, 34vh, 420px); }
+  .material--cellulose { grid-column: 2; min-height: clamp(300px, 34vh, 420px); }
+  .material--cellulose { grid-row: 3; }
 }
 @media (max-width: 760px) {
-  /* PEAD arriba a todo el ancho; lana y celulosa lado a lado debajo del separador */
-  .materials__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 12px; }
-  /* Más aire que el hueco entre tarjetas para que se lea como separación */
-  .materials__grid::before { grid-column: 1 / -1; grid-row: 2; height: 1px; margin-block: 12px; }
+  /* PEAD arriba a todo el ancho; lana y celulosa lado a lado debajo */
+  .materials__grid { grid-template-columns: minmax(0, 1fr) 1px minmax(0, 1fr); gap: 16px 12px; }
   .material { min-height: 340px; }
   .material--pead { grid-column: 1 / -1; grid-row: 1; }
+  .materials__grid::after { grid-column: 2; grid-row: 2; height: auto; }
   .material--wool,
-  .material--cellulose { grid-column: auto; grid-row: 3; min-height: 300px; }
+  .material--cellulose { grid-row: 2; min-height: 300px; }
+  .material--wool { grid-column: 1; }
+  .material--cellulose { grid-column: 3; }
   .material__copy { padding: 100px 24px 26px; }
   .material--wool .material__copy,
   .material--cellulose .material__copy { padding: 72px 14px 16px; }
